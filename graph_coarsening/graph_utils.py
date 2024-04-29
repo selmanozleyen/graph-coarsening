@@ -77,11 +77,13 @@ def eig(A, order='ascend'):
     return (X,np.real(l))
 
 def zero_diag(A):
-    
-    import scipy as sp
 
-    if sp.sparse.issparse(A):
-        return A - sp.sparse.dia_matrix((A.diagonal()[sp.newaxis, :], [0]), shape=(A.shape[0], A.shape[1]))
+    import scipy.sparse as sp
+
+    if sp.issparse(A):
+        A_res = A.copy()
+        A_res.setdiag(0)
+        return A_res
     else:
         D = A.diagonal()
         return A - np.diag(D)
